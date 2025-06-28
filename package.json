@@ -10,13 +10,13 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && prisma db push",
     "dev": "concurrently \"npm:ts:watch\" \"npm:tailwind:watch\" \"npm:serve\"",
     "ts:watch": "tsc --watch",
     "tailwind:watch": "postcss public/css/tailwind.css -o public/css/style.css --watch",
     "tailwind:build": "postcss public/css/tailwind.css -o public/css/style.css",
     "serve": "node build/src/start.js",
-    "start": "nodemon build/src/start.js",
+    "start": "node build/src/start.js",
     "dev:ts": "nodemon --watch src/start.ts",
     "start:ts": "tsx src/start.ts",
     "build": "tsc && npm run tailwind:build"

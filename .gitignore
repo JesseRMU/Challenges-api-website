@@ -188,6 +188,17 @@ pnpm-lock.yaml
 # Don't commit build artifacts either
 build/
 
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Database files
+*.db
+*.sqlite
+prisma/clients.db
+
 # drawio temp files
 *.drawio.bkp
 *.drawio.dtmp

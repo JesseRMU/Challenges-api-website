@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: netflix-roulette-clone
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./prisma/clients.db
+      - key: PORT
+        value: 10000
