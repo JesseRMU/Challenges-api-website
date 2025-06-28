@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Axios from 'axios';
 
-const TMDB_API_KEY: string = '6d3c81c18d632781db93325231a49095';
+const TMDB_API_KEY: string = process.env.TMDB_API_KEY || '6d3c81c18d632781db93325231a49095';
 
 interface GenreResponse {
   id: number;
