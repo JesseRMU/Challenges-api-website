@@ -1,6 +1,5 @@
 import { Router } from 'express';
-// import { getIndex } from '../controllers/indexController.js';
-import { getGenres, getIndex, getRandomMovieOrShow } from '../controllers/indexController.js';
+import { getGenres, getRandomMovieOrShow } from '../controllers/indexController.js';
 import { getTagsIndex } from '../controllers/tagController.js';
 import { getCategoryIndex } from '../controllers/categoryController.js';
 

@@ -1,34 +1,4 @@
-/**
- * In this code I deliberately are not using
- * any form o  // Maak resultaat div zichtbaa    if (!res.ok) {
-      resultDiv.innerHTML = `
-        <div class="text-red-400 text-center py-8">
-          <p class="font-semibold">❌ Error fetching data</p>
-        </div>
-      `;
-      return;
-    }
-    const data = await res.json();
 
-    if (data.error) {
-      resultDiv.innerHTML = `
-        <div class="text-red-400 text-center py-8">
-          <p class="font-semibold">❌ An error occurred</p>
-        </div>
-      `;
-      return;
-    }state
-  resultDiv.classList.remove('hidden');
-  resultDiv.className = 'bg-gray-800 rounded-lg p-6';
-  resultDiv.innerHTML = `
-    <div class="flex items-center justify-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
-      <span class="ml-3 text-gray-300">Loading...</span>
-    </div>
-  `;handling.
- * This is to keep the code simple and focused on the main functionality.
- * In a production environment, you should always handle errors properly.
- */
 // Self-invoking function to ensure the code runs after the DOM is fully loaded
 (function () {
     document.addEventListener('DOMContentLoaded', init);
@@ -37,57 +7,13 @@
 // setting up the javascript code to run after the page is loaded
 async function init() {
     console.log('Page loaded and self-invoking function executed.');
-    
-    // const tags = await getTags();
-    
-    // tags.forEach(tag => {
-    //     addTagToDocument(tag);
-    // });
 };
-
-async function getData(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Netwerk fout');
-    return await response.json();
-  } catch (error) {
-    console.error('Fout bij ophalen data:', error);
-    return null;
-  }
-}
-
-
-/**
- * Function to add a tag to the document
- * @param {*} tag 
- */
-const addTagToDocument = (tag) => {
-    const tagElement = document.createElement('div');
-    tagElement.className = 'tag';
-    tagElement.innerText = tag.data.name;
-    console.log('Adding tag:', tagElement);
-    document.getElementById('tags-list').appendChild(tagElement);
-};
-
-/**
- * Function to get the tag data (names) from the server
- * @returns the tagData
- */
-// const getTags = async () => {
-//     // first step - get the tag information / urls
-//     const tags = await getData('http://localhost:3012/tags');
-//     console.log('Tags fetched:', tags.data);
-//     const tagUrls = tags.data;
-//     // second step - get the data from the urls. In this case the name of the tag
-//     const tagsData = await getAllDataFromDifferentUrls(tagUrls);
-//     return tagsData;
-// };
 
 document.getElementById('spinBtn').addEventListener('click', async (event) => {
   event.preventDefault(); // Anders refreshed de page na het klikken op de spin button
   const resultDiv = document.getElementById('result');
   
-  // Maak resultaat div zichtbaar en toon loading state
+  // Maak resultaat  zichtbaar en laat zien als die aan het laden is
   resultDiv.classList.remove('hidden');
   resultDiv.className = 'bg-gray-800 rounded-lg p-6';
   resultDiv.innerHTML = `
@@ -109,7 +35,7 @@ document.getElementById('spinBtn').addEventListener('click', async (event) => {
   const filterMovie = document.getElementById('filterMovie').checked;
   const filterTV = document.getElementById('filterTV').checked;
 
-  // Controleer of er minimaal één type is geselecteerd
+  // Controleer of er een type is geselecteerd
   if (!filterMovie && !filterTV) {
     resultDiv.innerHTML = `
       <div class="text-yellow-400 text-center py-8">
@@ -130,18 +56,18 @@ document.getElementById('spinBtn').addEventListener('click', async (event) => {
     params.append('imdbScore', imdbScore);
   }
   
-  // Voeg type filters toe
+  // Voegt  filters toe die filteren op film of serie
   if (filterMovie && !filterTV) {
     params.append('type', 'movie');
   } else if (filterTV && !filterMovie) {
     params.append('type', 'tv');
   }
-  // Als beide aangevinkt zijn, sturen we geen type parameter (beide toegestaan)
-  
+
+  // Als ze allebei aangevinkt zijn, geeft hij geen parameter mee
   if (params.toString()) {
     url += `?${params.toString()}`;
-  }
 
+  }// errors voor als er iets mis gaat, bijv iets kan niet gefetched worden
   try {
     const res = await fetch(url);
     if (!res.ok) {
@@ -163,6 +89,7 @@ document.getElementById('spinBtn').addEventListener('click', async (event) => {
       return;
     }
 
+    // Als er gespinned is, toont data die uit api is gehaald op het scherm
     resultDiv.className = 'bg-gray-800 rounded-lg p-6';
     resultDiv.innerHTML = `
       <div class="flex flex-col md:flex-row md:space-x-6">
@@ -174,14 +101,14 @@ document.getElementById('spinBtn').addEventListener('click', async (event) => {
           <div class="text-gray-400 text-sm mb-2">
             <span>${data.year}</span>
             ${data.rating ? `<span class="ml-4">RG: ${data.rating}</span>` : ''}
-            ${data.number_of_seasons ? `<span class="ml-4">${data.number_of_seasons} Season${data.number_of_seasons > 1 ? 's' : ''}</span>` : ''}
+            ${data.numberOfSeasons && data.numberOfSeasons !== 'N/A' ? `<span class="ml-4">${data.numberOfSeasons} Season${data.numberOfSeasons > 1 ? 's' : ''}</span>` : ''}
           </div>
           <p class="text-gray-300 text-sm leading-relaxed mb-4">${data.description}</p>
           <button 
             class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded transition duration-300"
-            onclick="window.open('https://www.imdb.com/title/${data.imdb_id}', '_blank')"
+            onclick="window.open('https://www.imdb.com/find?q=${encodeURIComponent(data.title)}&ref_=nv_sr_sm', '_blank')"
           >
-            More info
+            Search on IMDB
           </button>
         </div>
       </div>
