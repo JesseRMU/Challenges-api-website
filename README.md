@@ -1,18 +1,12 @@
-# Netflix Roulette Clone
+Link naar werkende deployment van website: https://netflix-roulette.onrender.com
 
-Een responsive web applicatie die films en series ophaalt van de OMDB API met filters voor genre, type en IMDB rating. Gebouwd met Express.js, TypeScript, Tailwind CSS en EJS templates.
+# Installing TypeScript
 
-## Features
+This is a skeleton app for people who want to use TypeScript in ExpressJS. A docker-compose file is included for those who want to run it in a container.
 
-- 🎬 Zoeken naar films en series
-- 🏷️ Filteren op genre, type en IMDB rating
-- 📱 Volledig responsive design (mobile-first)
-- 🎨 Modern UI met Tailwind CSS
-- 🗄️ SQLite database met Prisma ORM
-- 🔍 Real-time zoekfunctionaliteit
+You don't have to use the docker-compose file if you're fine with installing NodeJS and NPM locally. Feel free to delete it if that's the case.
 
 ## Prerequisites
-
 Make sure you have [NodeJS](https://nodejs.org/en/download/) installed (preferably the LTS version). This will also install `npm`. For Windows users you might consider [Chocolaty](https://chocolatey.org) and for Mac users obviously [Brew](https://brew.sh). These are both package managers that will help you install and update all kinds of packages via the CLI. Highly recommended. 
 
 1. Open a terminal window (command prompt, git bash, powershell)
@@ -24,60 +18,8 @@ Make sure you have [NodeJS](https://nodejs.org/en/download/) installed (preferab
 1. Clone or download this repository to your computer
 2. Open a terminal in the project directory.
 3. Install the dependencies by running `npm install`.
-4. Copy `.env.example` to `.env` and fill in your OMDB API key
-5. Run `npm run dev` to start developing
-6. Run `npm run start` to start the server
-
-## Production Build
-
-```bash
-npm run build
-npm start
-```
-
-## Deployment op Render
-
-### Stap 1: Voorbereiding
-1. Zorg dat je project in een GitHub repository staat
-2. Zorg dat `.env` NIET in je repository staat (gebruik .gitignore)
-3. Test eerst lokaal met `npm run build` en `npm start`
-
-### Stap 2: Render Web Service aanmaken
-1. Ga naar [render.com](https://render.com) en maak een account
-2. Klik op "New +" → "Web Service"
-3. Verbind je GitHub repository
-4. Selecteer de repository met je project
-
-### Stap 3: Service configuratie
-- **Name**: Kies een naam voor je service (bijv. netflix-roulette-clone)
-- **Environment**: Node
-- **Region**: Frankfurt (Europe) of dichtstbijzijnde
-- **Branch**: main (of master)
-- **Build Command**: `npm install && npm run build`
-- **Start Command**: `npm start`
-
-### Stap 4: Environment Variables instellen
-Ga naar Environment tab en voeg toe:
-- `NODE_ENV` = `production`
-- `DATABASE_URL` = `file:./prisma/clients.db`
-- `OMDB_API_KEY` = je echte OMDB API key
-- `PORT` = `10000` (Render default)
-
-### Stap 5: Deploy
-1. Klik op "Create Web Service"
-2. Wacht tot de build en deployment klaar zijn
-3. Test je applicatie op de gegeven URL
-
-## Environment Variables
-
-Kopieer `.env.example` naar `.env` en vul de volgende variabelen in:
-
-```env
-DATABASE_URL="file:./dev.db"
-PORT=3000
-NODE_ENV=development
-OMDB_API_KEY=your_omdb_api_key_here
-```
+4. Run `npm run dev` to start developing
+5. Run `npm run start` to start the server
 
 ## Recommended VS Code Extension
  - To use the provided `.editorconfig` file, install the [EditorConfig](https://editorconfig.org/#download) plugin.
