@@ -13,12 +13,24 @@
 async function init() {
     console.log('Page loaded and self-invoking function executed.');
     
-    const tags = await getTags();
+    // const tags = await getTags();
     
-    tags.forEach(tag => {
-        addTagToDocument(tag);
-    });
+    // tags.forEach(tag => {
+    //     addTagToDocument(tag);
+    // });
 };
+
+async function getData(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Netwerk fout');
+    return await response.json();
+  } catch (error) {
+    console.error('Fout bij ophalen data:', error);
+    return null;
+  }
+}
+
 
 /**
  * Function to add a tag to the document
@@ -36,12 +48,37 @@ const addTagToDocument = (tag) => {
  * Function to get the tag data (names) from the server
  * @returns the tagData
  */
-const getTags = async () => {
-    // first step - get the tag information / urls
-    const tags = await getData('http://localhost:3012/tags');
-    console.log('Tags fetched:', tags.data);
-    const tagUrls = tags.data;
-    // second step - get the data from the urls. In this case the name of the tag
-    const tagsData = await getAllDataFromDifferentUrls(tagUrls);
-    return tagsData;
-};
+// const getTags = async () => {
+//     // first step - get the tag information / urls
+//     const tags = await getData('http://localhost:3012/tags');
+//     console.log('Tags fetched:', tags.data);
+//     const tagUrls = tags.data;
+//     // second step - get the data from the urls. In this case the name of the tag
+//     const tagsData = await getAllDataFromDifferentUrls(tagUrls);
+//     return tagsData;
+// };
+
+document.getElementById('spinBtn').addEventListener('click', async () => {
+  const resultDiv = document.getElementById('result');
+  resultDiv.innerHTML = 'Laden...';
+
+  try {
+    const res = await fetch('/random');
+    const data = await res.json();
+
+    if (data.error) {
+      resultDiv.innerHTML = 'Er is een fout opgetreden.';
+      return;
+    }
+
+    resultDiv.innerHTML = `
+      <h2>${data.title} (${data.year})</h2>
+      <img src="${data.image}" alt="Poster" style="max-width:200px;" />
+      <p><strong>Rating:</strong> ${data.rating || 'Onbekend'}</p>
+      ${data.number_of_seasons ? `<p><strong>Aantal seizoenen:</strong> ${data.number_of_seasons}</p>` : ''}
+      <p>${data.description}</p>
+    `;
+  } catch (err) {
+    resultDiv.innerHTML = 'Kon geen data ophalen.';
+  }
+});
